@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:id="@+id/frame"
+    android:background="@color/cornflower_blue_65"
     tools:context=".MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/smiley_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:src="@drawable/smiley_normal"
+        tools:ignore="ContentDescription" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/btn_add_comment"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|start"
+        android:foreground="?android:selectableItemBackground"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_note_add_black"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/btn_history"
+        android:background="@android:color/transparent"
+        android:foreground="?android:selectableItemBackground"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@drawable/ic_history_black"
+        tools:ignore="ContentDescription" />
+
+</FrameLayout>
