@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
             startActivity(intent);
         });
+
+        saveMood(null);
     }
 
     @Override
@@ -90,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
 
     @Override
     public void onDoneClicked(String comment) {
+        saveMood(comment);
+
+        //Date save with success Toast
+        Toast.makeText(this, "Commentaire enregisté avec succès !", Toast.LENGTH_LONG).show();
+    }
+
+    private void saveMood(String comment) {
         //Try to get today mood in database.
         //If not exist, we create else we updated the last one
         MoodStore moodStore = getTodayMood();//null
@@ -109,15 +118,17 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
         moodStore.setIndex(mood.getIndex());
         moodStore.setColor(mood.getColor());
         moodStore.setImage(mood.getAvatar());
-        moodStore.setComment(comment);
+        if(comment == null) {
+            moodStore.setComment(moodStore.getComment());
+        }else {
+            moodStore.setComment(comment);
+        }
+
         moodStore.setDateAdd(now.getTime());
 
         //Persistence
         mRealm.copyToRealmOrUpdate(moodStore);
         mRealm.commitTransaction();
-
-        //Date save with success Toast
-        Toast.makeText(this, "Commentaire enregisté avec succès !", Toast.LENGTH_LONG).show();
     }
 
     private MoodStore getTodayMood() {
