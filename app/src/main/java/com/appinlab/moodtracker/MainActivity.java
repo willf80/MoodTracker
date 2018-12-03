@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         mButtonAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                CommentFragment commentFragment = CommentFragment.newInstance();
+                commentFragment.show(getSupportFragmentManager(), CommentFragment.class.getName());
             }
         });
 
