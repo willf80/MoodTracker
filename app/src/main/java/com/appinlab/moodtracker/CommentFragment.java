@@ -11,9 +11,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 
 public class CommentFragment extends DialogFragment {
+
+    public interface OnDispatcher {
+        void onDoneClicked(String comment);
+    }
+
+    private OnDispatcher mOnDispatcher;
 
     public CommentFragment() {
         // Required empty public constructor
@@ -29,6 +36,10 @@ public class CommentFragment extends DialogFragment {
 
     }
 
+    public void setOnDispatcher(OnDispatcher onDispatcher) {
+        mOnDispatcher = onDispatcher;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -37,12 +48,16 @@ public class CommentFragment extends DialogFragment {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_comment, null);
 
+        final EditText commentEditText = view.findViewById(R.id.comment_edit_text);
+
         builder.setView(view)
                 .setNegativeButton("Annuler", null)
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        if(mOnDispatcher != null) {
+                            mOnDispatcher.onDoneClicked(commentEditText.getText().toString());
+                        }
                     }
                 });
 
