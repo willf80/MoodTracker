@@ -92,12 +92,15 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
     public void onDoneClicked(String comment) {
         //Try to get today mood in database.
         //If not exist, we create else we updated the last one
-        MoodStore moodStore = getTodayMood();
+        MoodStore moodStore = getTodayMood();//null
         Mood mood = mMoodManager.getCurrentMood();
+
+        Calendar now = Calendar.getInstance();
+//        now.add(Calendar.DAY_OF_MONTH, -7);
 
         mRealm.beginTransaction();
         if(moodStore == null) {
-            String id = Constants.dateToStringFormat(Calendar.getInstance().getTime(), "yyyyMMdd");
+            String id = Constants.dateToStringFormat(now.getTime(), "yyyyMMdd");
 
             moodStore = new MoodStore();
             moodStore.setId(id);
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
         moodStore.setColor(mood.getColor());
         moodStore.setImage(mood.getAvatar());
         moodStore.setComment(comment);
-        moodStore.setDateAdd(Calendar.getInstance().getTime());
+        moodStore.setDateAdd(now.getTime());
 
         //Persistence
         mRealm.copyToRealmOrUpdate(moodStore);

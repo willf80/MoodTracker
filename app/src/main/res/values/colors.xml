@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff00796b</color>
 
+    <color name="gray_200">#EEEEEE</color>
+
     <!-- Background colors used for the different moods -->
     <color name="faded_red">#ffde3c50</color>
     <color name="warm_grey">#ff9b9b9b</color>
