@@ -2,9 +2,13 @@ package com.appinlab.moodtracker.models;
 
 import com.appinlab.moodtracker.R;
 
+import io.realm.Realm;
+import io.realm.Sort;
+
 public class MoodManager {
     private int mIndex;
     private final int MAX = 4;
+    private Realm mRealm;
 
     private int[] mColors = new int[]{
             R.color.faded_red,
@@ -23,7 +27,19 @@ public class MoodManager {
     };
 
     public MoodManager() {
-        mIndex = 2;
+        mRealm = Realm.getDefaultInstance();
+        MoodStore moodStore = getLastMoodStore();
+
+        if(moodStore == null){
+            mIndex = 2;
+        }else {
+            mIndex = moodStore.getIndex();
+        }
+    }
+
+    private MoodStore getLastMoodStore() {
+        return mRealm.where(MoodStore.class).sort("id", Sort.DESCENDING)
+                .findFirst();
     }
 
     public Mood getNextMood() {
@@ -47,6 +63,6 @@ public class MoodManager {
     }
 
     private Mood generateMood() {
-        return new Mood(mColors[mIndex], mImages[mIndex]);
+        return new Mood(mIndex, mColors[mIndex], mImages[mIndex]);
     }
 }
