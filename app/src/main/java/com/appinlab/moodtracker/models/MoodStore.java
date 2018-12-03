@@ -14,6 +14,8 @@ public class MoodStore extends RealmObject {
 
     private int image;
 
+    private int index;
+
     private String comment;
 
     private Date dateAdd;
@@ -56,5 +58,13 @@ public class MoodStore extends RealmObject {
 
     public void setDateAdd(Date dateAdd) {
         this.dateAdd = dateAdd;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

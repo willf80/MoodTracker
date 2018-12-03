@@ -3,13 +3,15 @@ package com.appinlab.moodtracker.models;
 public class Mood {
     private int mColor;
     private int mAvatar;
+    private int mIndex;
 
     public Mood() {
     }
 
-    public Mood(int color, int avatar) {
+    public Mood(int index, int color, int avatar) {
         mColor = color;
         mAvatar = avatar;
+        mIndex = index;
     }
 
     public int getColor() {
@@ -26,6 +28,14 @@ public class Mood {
 
     public void setAvatar(int avatar) {
         mAvatar = avatar;
+    }
+
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
     }
 }
 
