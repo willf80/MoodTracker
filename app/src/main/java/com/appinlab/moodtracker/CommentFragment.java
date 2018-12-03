@@ -52,12 +52,9 @@ public class CommentFragment extends DialogFragment {
 
         builder.setView(view)
                 .setNegativeButton("Annuler", null)
-                .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(mOnDispatcher != null) {
-                            mOnDispatcher.onDoneClicked(commentEditText.getText().toString());
-                        }
+                .setPositiveButton("Valider", (dialog, which) -> {
+                    if(mOnDispatcher != null) {
+                        mOnDispatcher.onDoneClicked(commentEditText.getText().toString());
                     }
                 });
 
