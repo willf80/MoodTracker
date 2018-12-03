@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -63,21 +62,15 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             }
         });
 
-        buttonAddComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommentFragment commentFragment = CommentFragment.newInstance();
-                commentFragment.setOnDispatcher(MainActivity.this);
-                commentFragment.show(getSupportFragmentManager(), CommentFragment.class.getName());
-            }
+        buttonAddComment.setOnClickListener(v -> {
+            CommentFragment commentFragment = CommentFragment.newInstance();
+            commentFragment.setOnDispatcher(MainActivity.this);
+            commentFragment.show(getSupportFragmentManager(), CommentFragment.class.getName());
         });
 
-        buttonHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                startActivity(intent);
-            }
+        buttonHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(intent);
         });
     }
 
