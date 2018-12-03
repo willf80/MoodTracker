@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -74,6 +73,15 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Closes the Realm instance and all its resources.
+        if(mRealm != null) {
+            mRealm.close();
+        }
+    }
+
     private void applyMoodScreen() {
         Mood mood = mMoodManager.getCurrentMood();
         mFrameLayout.setBackgroundColor(ContextCompat.getColor(this, mood.getColor()));
@@ -82,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
 
     @Override
     public void onDoneClicked(String comment) {
-        Log.d(Constants.TAG, "onDoneClicked: " + comment);
-
         //Try to get today mood in database.
         //If not exist, we create else we updated the last one
         MoodStore moodStore = getTodayMood();
@@ -97,10 +103,14 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             moodStore.setId(id);
         }
 
+        moodStore.setIndex(mood.getIndex());
         moodStore.setColor(mood.getColor());
         moodStore.setImage(mood.getAvatar());
         moodStore.setComment(comment);
         moodStore.setDateAdd(Calendar.getInstance().getTime());
+
+        //Persistence
+        mRealm.copyToRealmOrUpdate(moodStore);
         mRealm.commitTransaction();
 
         //Date save with success Toast

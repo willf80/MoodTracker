@@ -3,6 +3,7 @@ package com.appinlab.moodtracker.models;
 import com.appinlab.moodtracker.R;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MoodManager {

@@ -10,7 +10,9 @@ public class ApplicationRealm extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()//For Dev Mode
+                .build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 }
