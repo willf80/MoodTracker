@@ -28,6 +28,18 @@
         tools:ignore="ContentDescription" />
 
     <ImageButton
+        android:id="@+id/btn_share"
+        android:background="@android:color/transparent"
+        android:foreground="?android:selectableItemBackground"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|center"
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_share_black_24dp"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
         android:id="@+id/btn_history"
         android:background="@android:color/transparent"
         android:foreground="?android:selectableItemBackground"

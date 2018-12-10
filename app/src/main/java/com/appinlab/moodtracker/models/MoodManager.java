@@ -3,7 +3,6 @@ package com.appinlab.moodtracker.models;
 import com.appinlab.moodtracker.R;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MoodManager {
@@ -25,6 +24,14 @@ public class MoodManager {
             R.drawable.smiley_normal,
             R.drawable.smiley_happy,
             R.drawable.smiley_super_happy,
+    };
+
+    private String[] mDescriptions = new String[]{
+            "Très mauvaise humeur",
+            "Mauvaise humeur",
+            "Humeur normale",
+            "Bonne humeur",
+            "Super bonne humeur",
     };
 
     public MoodManager() {
@@ -57,6 +64,10 @@ public class MoodManager {
             mIndex = MAX;
         }
         return generateMood();
+    }
+
+    public String getCurrentDescription() {
+        return mDescriptions[mIndex];
     }
 
     public Mood getCurrentMood() {

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
         mImageView = findViewById(R.id.smiley_image);
         ImageButton buttonAddComment = findViewById(R.id.btn_add_comment);
         ImageButton buttonHistory = findViewById(R.id.btn_history);
+        ImageButton buttonShared = findViewById(R.id.btn_share);
 
         //Apply last Mood screen
         applyMoodScreen();
@@ -72,6 +73,21 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             startActivity(intent);
         });
 
+        buttonShared.setOnClickListener(v -> {
+            MoodStore moodStore = getTodayMood();
+            String description = mMoodManager.getCurrentDescription();
+
+            if(moodStore.getComment() != null && !moodStore.getComment().isEmpty()) {
+                description += " : " + moodStore.getComment();
+            }
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, description);
+            sendIntent.setType("text/*");
+            startActivity(Intent.createChooser(sendIntent, "Partager mon humeur"));
+        });
+
         saveMood(null);
     }
 
@@ -88,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
         Mood mood = mMoodManager.getCurrentMood();
         mFrameLayout.setBackgroundColor(ContextCompat.getColor(this, mood.getColor()));
         mImageView.setImageResource(mood.getAvatar());
+
+        //Save the last choice
+        saveMood(null);
     }
 
     @Override
@@ -113,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
 
             moodStore = new MoodStore();
             moodStore.setId(id);
+            moodStore.setComment("");
         }
 
         moodStore.setIndex(mood.getIndex());
