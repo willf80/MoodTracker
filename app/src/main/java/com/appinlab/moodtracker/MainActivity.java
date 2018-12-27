@@ -29,25 +29,34 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
     private MoodManager mMoodManager;
     private Realm mRealm;
 
-    @SuppressLint("ClickableViewAccessibility")
+    private ImageButton buttonAddComment;
+    private ImageButton buttonHistory;
+    private ImageButton buttonShared;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mRealm = Realm.getDefaultInstance();
-
         mMoodManager = new MoodManager();
 
         mFrameLayout = findViewById(R.id.frame);
         mImageView = findViewById(R.id.smiley_image);
-        ImageButton buttonAddComment = findViewById(R.id.btn_add_comment);
-        ImageButton buttonHistory = findViewById(R.id.btn_history);
-        ImageButton buttonShared = findViewById(R.id.btn_share);
+        buttonAddComment = findViewById(R.id.btn_add_comment);
+        buttonHistory = findViewById(R.id.btn_history);
+        buttonShared = findViewById(R.id.btn_share);
+
+        setActionsListeners();
 
         //Apply last Mood screen
         applyMoodScreen();
 
+        saveMood(null);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setActionsListeners() {
         mFrameLayout.setOnTouchListener(new OnSwipeTouchListener(this){
             @Override
             public void onSwipeTop() {
@@ -68,10 +77,7 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             commentFragment.show(getSupportFragmentManager(), CommentFragment.class.getName());
         });
 
-        buttonHistory.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-            startActivity(intent);
-        });
+        buttonHistory.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, HistoryActivity.class)));
 
         buttonShared.setOnClickListener(v -> {
             MoodStore moodStore = getTodayMood();
@@ -87,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
             sendIntent.setType("text/*");
             startActivity(Intent.createChooser(sendIntent, "Partager mon humeur"));
         });
-
-        saveMood(null);
     }
 
     @Override
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements CommentFragment.O
 
     private void saveMood(String comment) {
         //Try to get today mood in database.
-        //If not exist, we create else we updated the last one
+        //If not exist, we create it else we updated the last one
         MoodStore moodStore = getTodayMood();//null
         Mood mood = mMoodManager.getCurrentMood();
 
