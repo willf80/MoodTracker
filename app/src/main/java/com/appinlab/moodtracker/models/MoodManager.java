@@ -1,9 +1,11 @@
 package com.appinlab.moodtracker.models;
 
 import com.appinlab.moodtracker.R;
+import com.appinlab.moodtracker.utils.Constants;
+
+import java.util.Calendar;
 
 import io.realm.Realm;
-import io.realm.Sort;
 
 public class MoodManager {
     private int mIndex;
@@ -36,34 +38,34 @@ public class MoodManager {
 
     public MoodManager() {
         mRealm = Realm.getDefaultInstance();
-        MoodStore moodStore = getLastMoodStore();
+        MoodStore moodStore = getTodayMoodStore();
 
         if(moodStore == null){
-            mIndex = 2;
+            mIndex = 3;//set default to Happy Smiley
         }else {
             mIndex = moodStore.getIndex();
         }
     }
 
-    private MoodStore getLastMoodStore() {
-        return mRealm.where(MoodStore.class).sort("id", Sort.DESCENDING)
+    private MoodStore getTodayMoodStore() {
+        String id = Constants.dateToStringFormat(Calendar.getInstance().getTime(), "yyyyMMdd");
+        return mRealm.where(MoodStore.class)
+                .equalTo("id", id)
                 .findFirst();
     }
 
-    public Mood getNextMood() {
+    public void getNextMood() {
         mIndex++;
         if(mIndex > MAX) {
             mIndex = 0;
         }
-        return generateMood();
     }
 
-    public Mood getPreviousMood() {
+    public void getPreviousMood() {
         mIndex--;
         if(mIndex < 0) {
             mIndex = MAX;
         }
-        return generateMood();
     }
 
     public String getCurrentDescription() {
